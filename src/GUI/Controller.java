@@ -1,4 +1,4 @@
-package sample;
+package GUI;
 
 import AutomataFX.DFAEdge;
 import AutomataFX.DFANode;
@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -45,8 +46,14 @@ public class Controller {
     }
 
     @FXML
+    private void clearScreen() {
+        automata = new DFA();
+        DFAPane.getChildren().clear();
+    }
+
+    @FXML
     private void addNode(MouseEvent event) {
-        if(automata.getNodes().stream().noneMatch(p -> p.getCoords().distance(event.getX(), event.getY()) <= 25)) {
+        if(event.getButton().equals(MouseButton.PRIMARY) && automata.getNodes().stream().noneMatch(p -> p.getCoords().distance(event.getX(), event.getY()) <= 25)) {
             Node n = new Node(event.getX(), event.getY(), (int) (Math.random() * 1000));
             System.out.println(event.getX());
             while (automata.getNodes().contains(n)) {
@@ -56,12 +63,13 @@ public class Controller {
             DFANode newNode = new DFANode(n);
             DFAPane.getChildren().add(newNode);
         } else {
-            myEdges.forEach(DFAEdge::updateLocation);
+            updateEdges();
         }
         try {
             automata.removeNodes();
+            removeEdge();
         } catch (Exception e) {
-            System.err.println("Could not remove edges now");
+            System.err.println("Could not remove Nodes now");
         }
     }
 
@@ -103,8 +111,14 @@ public class Controller {
     }
 
     @FXML
-    private void removeEdge(ActionEvent event) {
+    private void removeEdge() {
+        myEdges.stream().filter(DFAEdge::shouldRemove).forEach(DFAEdge::remove);
+        automata.removeEdges();
+    }
 
+    @FXML
+    private void updateEdges() {
+        myEdges.forEach(DFAEdge::updateLocation);
     }
 
     @FXML

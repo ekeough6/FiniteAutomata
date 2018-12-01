@@ -2,8 +2,11 @@ package AutomataFX;
 
 import FiniteAutomata.Edge;
 import javafx.geometry.Point2D;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.QuadCurve;
+
+import java.awt.event.MouseEvent;
 
 public class DFAEdge extends QuadCurve {
 
@@ -16,6 +19,12 @@ public class DFAEdge extends QuadCurve {
 
         setFill(Color.TRANSPARENT);
         setStroke(Color.BLACK);
+        setOnMouseClicked(e -> {
+            if(e.getButton().equals(MouseButton.SECONDARY)) {
+                edge.setRemove(true);
+                setVisible(false);
+            }
+        });
     }
 
     public void updateLocation() {
@@ -36,5 +45,13 @@ public class DFAEdge extends QuadCurve {
             setStartX(from.getX());
             setStartY(from.getY());
         }
+    }
+
+    public void remove() {
+        setVisible(false);
+    }
+
+    public boolean shouldRemove() {
+        return edge.shouldRemove();
     }
 }

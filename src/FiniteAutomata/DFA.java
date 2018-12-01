@@ -108,4 +108,7 @@ public class DFA {
     }
 
 
+    public void removeEdges() {
+        edges.stream().filter(Edge::shouldRemove).forEach(this::removeTransition);
+    }
 }

@@ -4,12 +4,14 @@ import java.util.Objects;
 
 public class Edge {
     private Node fromNode, toNode;
+    private boolean remove;
     private char transitionSymbol;
 
     public Edge(Node fromNode, Node toNode, char transitionSymbol) {
         this.fromNode = fromNode;
         this.toNode = toNode;
         this.transitionSymbol = transitionSymbol;
+        remove = false;
     }
 
     public Node getFromNode() {
@@ -22,6 +24,14 @@ public class Edge {
 
     public char getTransitionSymbol() {
         return transitionSymbol;
+    }
+
+    public boolean shouldRemove() {
+        return remove || fromNode.shouldRemove() || toNode.shouldRemove();
+    }
+
+    public void setRemove(boolean remove) {
+        this.remove = remove;
     }
 
     @Override
