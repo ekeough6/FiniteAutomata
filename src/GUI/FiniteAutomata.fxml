@@ -21,6 +21,8 @@
             <Menu mnemonicParsing="false" text="Tools">
                <items>
                   <MenuItem fx:id="clear" onAction="#clearScreen" text="Reset Automata" />
+                  <MenuItem fx:id="clear1" onAction="#setTransitionToZero" text="Set 0 Transitions" />
+                  <MenuItem fx:id="clear11" onAction="#setTransitionToOne" text="Set 1 Transitions" />
                </items>
             </Menu>
       </menus>

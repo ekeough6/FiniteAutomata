@@ -73,6 +73,8 @@ public class DFA {
         nodes.remove(node);
         edges.removeIf(e -> (e.getFromNode().equals(node) || e.getToNode().equals(node)));
         removeAcceptingState(node);
+        if(startingState.equals(node))
+            startingState = null;
     }
 
     public void addTransition(Edge edge) {
@@ -107,6 +109,9 @@ public class DFA {
         }
     }
 
+    public void setStartingState(Node n) {
+        startingState = n;
+    }
 
     public void removeEdges() {
         edges.stream().filter(Edge::shouldRemove).forEach(this::removeTransition);

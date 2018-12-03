@@ -1,13 +1,14 @@
 package FiniteAutomata;
 
 import javafx.geometry.Point2D;
+import javafx.scene.shape.TriangleMesh;
 
 import java.util.Objects;
 
 public class Node {
     private double xCoord, yCoord;
     private int id;
-    private boolean accepting, remove, selected;
+    private boolean accepting, remove, selected, makeStarting;
 
     public Node(double xCoord, double yCoord, int id) {
         this.xCoord = xCoord;
@@ -53,6 +54,18 @@ public class Node {
 
     public boolean isSelected() {
         return selected;
+    }
+
+    public void makeStart() {
+        makeStarting = true;
+    }
+
+    public void unStart() {
+        makeStarting = false;
+    }
+
+    public boolean shouldStart() {
+        return makeStarting;
     }
 
     @Override

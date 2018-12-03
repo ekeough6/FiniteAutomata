@@ -1,28 +1,39 @@
 package AutomataFX;
 
 import FiniteAutomata.Edge;
+import GUI.Controller;
 import javafx.geometry.Point2D;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.QuadCurve;
-
-import java.awt.event.MouseEvent;
+import javafx.scene.text.Text;
 
 public class DFAEdge extends QuadCurve {
 
     private Edge edge;
+    private Text transition;
+    private boolean transitionSelected;
+
 
     public DFAEdge(Edge edge) {
         this.edge = edge;
 
-        updateLocation();
 
+        transition = new Text(edge.getTransitionSymbol() + "");
+        transitionSelected = false;
+        //setting the transition value for the edge
+        transition.setOnMouseClicked(e -> {
+            transition.setText(Controller.getTransition() + "");
+        });
+
+        updateLocation();
         setFill(Color.TRANSPARENT);
         setStroke(Color.BLACK);
         setOnMouseClicked(e -> {
             if(e.getButton().equals(MouseButton.SECONDARY)) {
                 edge.setRemove(true);
-                setVisible(false);
+                remove();
             }
         });
     }
@@ -45,13 +56,24 @@ public class DFAEdge extends QuadCurve {
             setStartX(from.getX());
             setStartY(from.getY());
         }
+        transition.setLayoutX(getControlX());
+        transition.setLayoutY(getControlY());
     }
 
     public void remove() {
         setVisible(false);
+        transition.setVisible(false);
+    }
+
+    public Text getTransition() {
+        return transition;
     }
 
     public boolean shouldRemove() {
         return edge.shouldRemove();
+    }
+
+    public Point2D getTransitionCoords() {
+        return new Point2D(transition.getLayoutX(), transition.getLayoutY());
     }
 }

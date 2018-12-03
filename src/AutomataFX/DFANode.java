@@ -20,8 +20,8 @@ public class DFANode extends Circle {
         });
         setOnMouseClicked(e -> {
             if(e.getButton().equals(MouseButton.PRIMARY)){
-                if(e.isAltDown()) {
-
+                if(e.isControlDown()) {
+                    node.makeStart();
                 }
 
                 if(e.isShiftDown()) {

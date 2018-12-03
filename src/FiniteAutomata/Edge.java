@@ -48,4 +48,8 @@ public class Edge {
     public int hashCode() {
         return Objects.hash(fromNode, toNode, transitionSymbol);
     }
+
+    public void setTransitionSymbol(char c) {
+        transitionSymbol = c;
+    }
 }
