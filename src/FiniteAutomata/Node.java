@@ -83,4 +83,11 @@ public class Node {
 
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "id=" + id +
+                '}';
+    }
 }

@@ -52,4 +52,13 @@ public class Edge {
     public void setTransitionSymbol(char c) {
         transitionSymbol = c;
     }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "fromNode=" + fromNode +
+                ", toNode=" + toNode +
+                ", transitionSymbol=" + transitionSymbol +
+                '}';
+    }
 }

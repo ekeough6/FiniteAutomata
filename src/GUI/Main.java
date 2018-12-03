@@ -13,6 +13,10 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FiniteAutomata.fxml"));
         primaryStage.setTitle("Interactive Finite Automata");
         primaryStage.setScene(new Scene(root, 665, 400));
+        primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(e -> {
+            System.exit(0);
+        });
         primaryStage.show();
     }
 

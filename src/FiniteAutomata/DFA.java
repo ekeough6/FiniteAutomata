@@ -46,19 +46,24 @@ public class DFA {
     }
 
     public Node nextNode(char symbol) {
-        var validNodes = edges.stream().filter(e -> e.getFromNode().equals(currentNode) && e.getTransitionSymbol() == symbol).iterator();
-        if(validNodes.hasNext()) {
-            return validNodes.next().getToNode();
-        }
-        return null;
+        var validNodes = edges.stream().filter(e -> e.getFromNode().equals(currentNode) && e.getTransitionSymbol() == symbol).findFirst();
+        return validNodes.map(Edge::getToNode).orElse(null);
     }
+
+    public void doTransition(char symbol) {
+        if(hasTransition(symbol)) {
+            currentNode = nextNode(symbol);
+            System.out.println(currentNode);
+        }
+    }
+
 
     public void reset() {
         currentNode = startingState;
     }
 
     public boolean hasTransition(char symbol) {
-        return edges.stream().filter(e -> e.getFromNode().equals(currentNode) && e.getTransitionSymbol() == symbol).iterator().hasNext();
+        return edges.stream().anyMatch(e -> e.getFromNode().equals(currentNode) && e.getTransitionSymbol() == symbol);
     }
 
     public boolean isInAcceptingState() {
