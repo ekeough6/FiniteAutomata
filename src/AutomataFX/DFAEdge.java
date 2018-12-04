@@ -25,6 +25,7 @@ public class DFAEdge extends QuadCurve {
         //setting the transition value for the edge
         transition.setOnMouseClicked(e -> {
             transition.setText(Controller.getTransition() + "");
+            edge.setTransitionSymbol(Controller.getTransition());
         });
 
         updateLocation();

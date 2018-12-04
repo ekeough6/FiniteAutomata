@@ -93,37 +93,38 @@ public class Controller {
 
     @FXML
     private void runAutomata() {
-
-        var symbols = Arrays.asList(input.getCharacters().toString().split("")).iterator();
-        myNodes.forEach(DFANode::removeOutLine);
-        System.out.println(symbols);
-        automata.reset();
-        while(symbols.hasNext()) {
-            char symbol = symbols.next().charAt(0);
-            System.out.println(automata.getCurrentNode());
-            if(!automata.hasTransition(symbol)) {
-                System.out.println("No transition");
+        new Thread(() -> {
+            var symbols = Arrays.asList(input.getCharacters().toString().split("")).iterator();
+            myNodes.forEach(DFANode::removeOutLine);
+            System.out.println(symbols);
+            automata.reset();
+            while (symbols.hasNext()) {
+                char symbol = symbols.next().charAt(0);
+                System.out.println(automata.getCurrentNode());
+                if (!automata.hasTransition(symbol)) {
+                    System.out.println("No transition");
+                    var n = myNodes.stream().filter(e -> e.representsNode(automata.getCurrentNode())).findFirst();
+                    Platform.runLater(() -> {
+                        n.ifPresent(DFANode::redOutLine);
+                    });
+                    break;
+                }
+                Platform.runLater(() -> {
+                    myNodes.forEach(DFANode::removeOutLine);
+                });
+                automata.doTransition(symbol);
                 var n = myNodes.stream().filter(e -> e.representsNode(automata.getCurrentNode())).findFirst();
                 Platform.runLater(() -> {
-                    n.ifPresent(DFANode::redOutLine);
+                    n.ifPresent(DFANode::toggleOutLine);
                 });
-                break;
-            }
-            Platform.runLater(() -> {
-                myNodes.forEach(DFANode::removeOutLine);
-            });
-            automata.doTransition(symbol);
-            var n = myNodes.stream().filter(e -> e.representsNode(automata.getCurrentNode())).findFirst();
-            Platform.runLater(() -> {
-                n.ifPresent(DFANode::toggleOutLine);
-            });
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-        }
+            }
+        }).start();
     }
 
     @FXML

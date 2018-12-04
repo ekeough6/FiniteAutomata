@@ -74,4 +74,5 @@ public class DFANode extends Circle {
     public void redOutLine() {
         setStroke(Color.RED);
     }
+
 }
